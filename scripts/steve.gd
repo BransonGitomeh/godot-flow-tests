@@ -2,17 +2,19 @@ extends KinematicBody
 
 var velocity = Vector3(0,0,0)
 const SPEED = 5
+onready var playerMesh = get_node("/root/level/steve/Sphere")
+onready var obstacleMesh = get_node("/root/level/obstacle/MeshInstance")
 
 func _ready():
 	printt("hello ", velocity) 
 	
 func _physics_process(delta):
+	obstacleMesh.rotate_y(deg2rad(-3))
 	if Input.is_action_pressed("ui_right") and Input.is_action_pressed("ui_left"):
 		velocity.x = 0
 	elif Input.is_action_pressed("ui_right"):
 		velocity.x = SPEED
-		$MeshInstance.rotate_z(deg2rad(8))
-		# $./floor/MeshInstance.rotate_z(deg2rad(8))
+		playerMesh.rotate_z(deg2rad(-3))
 	elif Input.is_action_pressed("ui_left"):
 		velocity.x = -SPEED
 	else:
