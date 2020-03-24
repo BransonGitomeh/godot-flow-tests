@@ -2,6 +2,9 @@ extends KinematicBody
 
 var velocity = Vector3(0,0,0)
 const SPEED = 5
+const ROTARION = 3
+
+onready var controller = get_node("/root/level/controller")
 
 func _ready():
 	pass
@@ -41,4 +44,15 @@ func _physics_process(delta):
 		velocity.y = -SPEED
 	else:
 		velocity.y = lerp(velocity.x,0,.1)
+		
+	# camera rotate
+	if Input.is_action_pressed("cam_rotate_left") and Input.is_action_pressed("cam_rotate_right"):
+		controller.rotate_y(deg2rad(0))
+	elif Input.is_action_pressed("cam_rotate_left"):
+		controller.rotate_y(deg2rad(ROTARION))
+	elif Input.is_action_pressed("cam_rotate_right"):
+		controller.rotate_y(deg2rad(-ROTARION))
+#	else:
+#		camera.rotate_y(deg2rad(lerp(velocity.x,0,.1)))
+#		velocity.y = lerp(velocity.x,0,.1)
 	move_and_slide(velocity)
