@@ -1,7 +1,7 @@
 extends KinematicBody
 
 var velocity = Vector3(0,0,0)
-const SPEED = 5
+const SPEED = 10
 
 onready var playerMesh = get_node("/root/level/steve/Sphere")
 onready var obstacleMesh = get_node("/root/level/obstacle/MeshInstance")
@@ -56,4 +56,13 @@ func _physics_process(delta):
 			# printt(position3D,playerMesh.transform.origin)
 			# current position
 			
-			playerMesh.transform.origin = position3D
+			#playerMesh.transform.origin = position3D
+			
+			var scene = load("res://assets/steve.tscn")
+			var player = scene.instance()
+			add_child(player)
+			
+			player.transform.origin = position3D
+			player.rotate_y(deg2rad(3))
+			
+	
