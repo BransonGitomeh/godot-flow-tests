@@ -9,10 +9,27 @@ export var camera_x_rotation = 0
 onready var controller = get_node("/root/level/controller")
 onready var camera = get_node("/root/level/controller/Camera")
 
+export var zoom_step = 0.5
+export var zoom_min = 0.5
+export var zoom_max = 3.0
+export var zoom_speed = 2.0
+var zoom_target = 1
+
+var world;
+
 func _ready():
-	pass
+	world = get_parent()
+	set_process_input(true)
+	set_process(true)
+	
+# Helper functions
+func move_towards(current, target, maxdelta):
+	if abs(target - current) <= maxdelta:
+		return target
+	return current + sign(target - current) * maxdelta
 	
 func _input(event):
+	# var zoom = camera
 	# use the mouse to know direction to move in in our world
 	if event is InputEventMouseMotion and Input.is_action_pressed("free_rotate"):
 		controller.rotate_y(deg2rad(-event.relative.x * mouse_sensitivity))
@@ -23,6 +40,22 @@ func _input(event):
 			camera.rotate_x(deg2rad(-x_delta))
 			camera_x_rotation += x_delta
 			# camera.rotate_x(deg2rad(-event.relative.y * mouse_sensitivity))
+			
+	# scroll up or down
+	if Input.is_action_pressed("BUTTON_WHEEL_DOWN"):
+		print("BUTTON_WHEEL_DOWN")
+		velocity.x = SPEED
+		# zoom_target -= zoom_step * (1/(1+zoom_target))
+		# zoom to mouse?
+	elif Input.is_action_pressed("BUTTON_WHEEL_UP"):
+		print("BUTTON_WHEEL_UP")
+		velocity.x = -SPEED
+		# zoom_target += zoom_step * (1/(1+zoom_target))
+	else:
+		velocity.x = lerp(velocity.x,0,.1)			
+	#zoom_target = clamp(zoom_target, zoom_min, zoom_max)
+	#print(zoom_target)
+	#print(zoom_target)
 
 func _physics_process(delta):
 	# movements for the camera, this ist an fps so we dont use mouse movement to tweak the rotation

@@ -17,4 +17,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 script = ExtResource( 4 )
 
 [node name="controller" parent="." instance=ExtResource( 5 )]
-
